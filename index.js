@@ -1,9 +1,15 @@
+const jwt = require('jsonwebtoken');
 const express = require('express');
-const app = express();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const TOKEN_EXPIRY = '2h';
+
 const port = 3000;
 
-app.get('/', (req, res) => {
-  // Code here
+const app = express();
+
+app.post('/api/auth/login', (req, res) => {
+
 });
 
 app.listen(port, () => {
