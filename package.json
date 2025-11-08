@@ -1,0 +1,23 @@
+{
+  "name": "hackthechange2025-backend",
+  "version": "1.0.0",
+  "description": "Backend for our Hack The Change 2025 Project",
+  "homepage": "https://github.com/lostshelf/hackthechange2025-backend#readme",
+  "bugs": {
+    "url": "https://github.com/lostshelf/hackthechange2025-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lostshelf/hackthechange2025-backend.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
