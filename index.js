@@ -49,7 +49,7 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials.' }); 
     }
 
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials.' });
@@ -73,18 +73,30 @@ app.post('/api/auth/create_account', async (req, res) => {
     return res.status(401).json({ message: 'Invalid user information.'});
   }
 
-  const result = await pool.query("SELECT email FROM users WHERE email = $1", [email]);
+  try {
+    const result = await pool.query("SELECT email FROM users WHERE email = $1", [email]);
 
-  if (result.rows.length > 0) {
-    return res.status(401).json({ message: 'User already exists'});
+    if (result.rows.length > 0) {
+      return res.status(401).json({ message: 'User already exists'});
+    }
+
+    const id = crypto.randomUUID();
+    const password_hash = bcrypt.hash(password);
+
+    const res = await pool.query(
+      `
+      INSERT INTO users (id, username, email, password)
+      VALUES ($1, $2, $3, $4);
+      `,
+      [id, username, email, password_hash]
+    );
+  } catch(err) {
+    return res.status(500).json({ message: 'Internal server error during login.' });
   }
-
-  const password_hash = bcrypt.hash(password);
 });
 
 app.post('/api/issue/post', auth.authenticate, async () => {
-  const { ticketId, state, title, description, latitude, longitude } = req.body;
-
+  const { ticketId, state, title, description, latitude, longitude, user_post } = req.body;
 });
 
 app.post('/api/issue/delete', auth.authenticate, async () => {
