@@ -97,7 +97,7 @@ app.post('/api/auth/create_account', async (req, res) => {
   }
 });
 
-app.post('/api/issue/post', auth.authenticate, async (req, res) => {
+app.post('/api/issue/post', async (req, res) => {
   const { ticketId, state, title, description, latitude, longitude } = req.body;
 
   try {
