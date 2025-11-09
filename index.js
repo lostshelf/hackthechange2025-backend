@@ -67,15 +67,28 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 app.post('/api/auth/create_account', async (req, res) => {
+  const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res.status(401).json({ message: 'Invalid user information.'});
+  }
+
+  const result = await pool.query("SELECT email FROM users WHERE email = $1", [email]);
+
+  if (result.rows.length > 0) {
+    return res.status(401).json({ message: 'User already exists'});
+  }
+
+  const password_hash = bcrypt.hash(password);
 });
 
 app.post('/api/issue/post', auth.authenticate, async () => {
+  const { ticketId, state, title, description, latitude, longitude } = req.body;
 
 });
 
 app.post('/api/issue/delete', auth.authenticate, async () => {
-
+  
 });
 
 app.post('/api/message/post', auth.authenticate, async () => {
@@ -86,8 +99,14 @@ app.post('/api/message/delete', auth.authenticate, async () => {
   
 });
 
-app.get('/', (req, res) => {
-  res.send("balls");
+app.get('/api/issue/get', (req, res) => {
+  const { issueId } = req.body
+
+  if (!issueId) {
+    return res.status(401).json({message: 'Invalid issue id'});
+  }
+
+
 });
 
 app.listen(PORT, () => {
