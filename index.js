@@ -26,6 +26,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRY = '2h';
 const PORT = process.env.PORT;
 
+app.use(express.json());
+
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -104,7 +106,7 @@ app.post('/api/issue/delete', auth.authenticate, async () => {
 });
 
 app.post('/api/message/post', auth.authenticate, async () => {
-  
+
 });
 
 app.post('/api/message/delete', auth.authenticate, async () => {
