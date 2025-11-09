@@ -98,11 +98,11 @@ app.post('/api/auth/create_account', async (req, res) => {
 });
 
 app.post('/api/issue/post', async (req, res) => {
-  const { state, title, description, latitude, longitude } = req.body;
+  const { title, description, latitude, longitude } = req.body;
 
   try {
-    const result = await pool.query("INSERT INTO tickets(state, title, description, latitude, longitude) VALUES($1, $2, $3, $4, $5)",
-        [state, title, description, latitude, longitude]);
+    const result = await pool.query("INSERT INTO tickets(title, description, latitude, longitude) VALUES($1, $2, $3, $4)",
+        [title, description, latitude, longitude]);
 
     res.status(200).json({success: true, issue: result.rows[0]});
   } catch (err) {
