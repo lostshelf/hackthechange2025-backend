@@ -26,13 +26,13 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRY = '2h';
 const PORT = process.env.PORT;
 
-// const pool = new Pool({
-//   user: process.env.DB_USER,
-//   host: process.env.DB_HOST,
-//   database: process.env.DB_DATABASE,
-//   password: process.env.DB_PASSWORD,
-//   port: process.env.DB_PORT,
-// });
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
 app.post('/api/auth/login', async (req, res) => {
   const { username, password } = req.body;
@@ -84,6 +84,10 @@ app.post('/api/message/post', auth.authenticate, async () => {
 
 app.post('/api/message/delete', auth.authenticate, async () => {
   
+});
+
+app.get('/', (req, res) => {
+  res.message("balls");
 });
 
 app.listen(PORT, () => {
