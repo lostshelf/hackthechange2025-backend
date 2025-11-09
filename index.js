@@ -139,3 +139,14 @@ app.get('/api/issue/get', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}.`);
 });
+
+app.get('/api/issue/get_all', async (req, res) => {
+  try {
+    const results = await pool.query("SELECT * FROM tickets;");
+
+    return res.status(200).json(results.rows);
+  } catch(err) {
+    console.log(err);
+    return res.status(500).json({ message: 'Error occurred while getting issue data.'});
+  }
+});
