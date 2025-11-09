@@ -107,8 +107,6 @@ app.post('/api/issue/post', auth.authenticate, async (req, res) => {
     console.error("Error inserting issue:", err);
     res.status(500).json({ error: "Database error" });
   }
-
-
 });
 
 app.post('/api/issue/delete', auth.authenticate, async () => {
@@ -130,7 +128,7 @@ app.get('/api/issue/get', async (req, res) => {
     return res.status(401).json({message: 'Invalid issue id'});
   }
   try {
-    const results = await pool.query("SELECT id, state, description, messages, latitude, longitude FROM tickets WHERE id = $1", [issueId]);
+    const results = await pool.query("SELECT id, title, state, description, messages, latitude, longitude FROM tickets WHERE id = $1", [issueId]);
 
     return res.status(200).json(results.rows[0]);
   } catch (error) {
