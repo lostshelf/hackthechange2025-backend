@@ -72,6 +72,10 @@ app.post('/api/message/delete', auth.authenticate, () => {
   
 });
 
+app.get('/', () => {
+  res.message("test");
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}.`);
 });
