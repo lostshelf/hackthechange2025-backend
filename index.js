@@ -100,7 +100,19 @@ app.post('/api/auth/create_account', async (req, res) => {
 });
 
 app.post('/api/issue/post', auth.authenticate, async () => {
-  
+  const { ticketId, state, title, description, latitude, longitude } = req.body;
+
+  try {
+    const result = await pool.query("INSERT INTO tickets(id, state, title, description, latitude, longitude) VALUES($1, $2, $3, $4, $5, $6)",
+        [ticketId, state, title, description, latitude, longitude]);
+
+    res.status(200).json({success: true, issue: result.rows[0]});
+  } catch (err) {
+    console.error("Error inserting issue:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+
+
 });
 
 app.post('/api/issue/delete', auth.authenticate, async () => {
@@ -115,14 +127,19 @@ app.post('/api/message/delete', auth.authenticate, async () => {
   
 });
 
-app.get('/api/issue/get', (req, res) => {
-  const { issueId } = req.body
+app.get('/api/issue/get', async (req, res) => {
+  const {issueId} = req.body
 
   if (!issueId) {
     return res.status(401).json({message: 'Invalid issue id'});
   }
+  try {
+    const results = await pool.query("SELECT id, state, description, messages, latitude, longitude FROM tickets WHERE id = $1", [issueId]);
 
-
+    return res.status(200).json(results.rows[0]);
+  } catch (error) {
+    return res.status(500).json({ message: 'Internal server error while getting ticket from issue id.' });
+  }
 });
 
 app.listen(PORT, () => {
