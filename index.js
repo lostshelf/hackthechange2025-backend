@@ -85,13 +85,15 @@ app.post('/api/auth/create_account', async (req, res) => {
     const id = crypto.randomUUID();
     const password_hash = bcrypt.hash(password);
 
-    const res = await pool.query(
+    const r = await pool.query(
       `
       INSERT INTO users (id, username, email, password)
       VALUES ($1, $2, $3, $4);
       `,
       [id, username, email, password_hash]
     );
+
+    return res.status(200);
   } catch(err) {
     return res.status(500).json({ message: 'Internal server error during account creation.' });
   }
