@@ -1,5 +1,19 @@
 require('dotenv').config();
 
+process.on('uncaughtException', (err) => {
+  console.error('*** FATAL UNCAUGHT EXCEPTION ***');
+  console.error(err.stack || err);
+  process.exit(1); 
+});
+
+// Catches promise rejections that weren't caught by .catch()
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('*** FATAL UNHANDLED REJECTION ***');
+  console.error('Promise:', promise);
+  console.error('Reason:', reason);
+  process.exit(1);
+});
+
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
@@ -56,19 +70,19 @@ app.post('/api/auth/create_account', async (req, res) => {
 
 });
 
-app.post('/api/issue/post', auth.authenticate, () => {
+app.post('/api/issue/post', auth.authenticate, async () => {
 
 });
 
-app.post('/api/issue/delete', auth.authenticate, () => {
+app.post('/api/issue/delete', auth.authenticate, async () => {
 
 });
 
-app.post('/api/message/post', auth.authenticate, () => {
+app.post('/api/message/post', auth.authenticate, async () => {
 
 });
 
-app.post('/api/message/delete', auth.authenticate, () => {
+app.post('/api/message/delete', auth.authenticate, async () => {
   
 });
 
