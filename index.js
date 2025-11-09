@@ -87,7 +87,7 @@ app.post('/api/message/delete', auth.authenticate, async () => {
 });
 
 app.get('/', (req, res) => {
-  res.message("balls");
+  res.send("balls");
 });
 
 app.listen(PORT, () => {
