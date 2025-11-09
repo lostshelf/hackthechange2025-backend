@@ -101,7 +101,7 @@ app.post('/api/issue/post', async (req, res) => {
   const { title, description, latitude, longitude } = req.body;
 
   try {
-    const result = await pool.query("INSERT INTO tickets(title, description, latitude, longitude) VALUES($1, $2, $3, $4)",
+    const result = await pool.query("INSERT INTO tickets(state, title, description, latitude, longitude) VALUES('In Progress', $1, $2, $3, $4)",
         [title, description, latitude, longitude]);
 
     res.status(200).json({success: true, issue: result.rows[0]});
