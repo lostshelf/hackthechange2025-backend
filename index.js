@@ -82,7 +82,7 @@ app.post('/api/auth/create_account', async (req, res) => {
       return res.status(401).json({ message: 'User already exists'});
     }
 
-    const password_hash = await bcrypt.hash(password);
+    const password_hash = await bcrypt.hash(password, 10);
 
     const r = await pool.query(
       `INSERT INTO users (username, email, password) VALUES ($1, $2, $3);`,
