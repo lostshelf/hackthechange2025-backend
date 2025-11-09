@@ -104,7 +104,7 @@ app.post('/api/issue/delete', auth.authenticate, async () => {
 });
 
 app.post('/api/message/post', auth.authenticate, async () => {
-
+  
 });
 
 app.post('/api/message/delete', auth.authenticate, async () => {
