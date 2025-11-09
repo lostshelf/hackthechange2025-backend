@@ -93,12 +93,12 @@ app.post('/api/auth/create_account', async (req, res) => {
       [id, username, email, password_hash]
     );
   } catch(err) {
-    return res.status(500).json({ message: 'Internal server error during login.' });
+    return res.status(500).json({ message: 'Internal server error during account creation.' });
   }
 });
 
 app.post('/api/issue/post', auth.authenticate, async () => {
-  const { ticketId, state, title, description, latitude, longitude, user_post } = req.body;
+  
 });
 
 app.post('/api/issue/delete', auth.authenticate, async () => {
