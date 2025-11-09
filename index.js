@@ -19,6 +19,7 @@ const express = require('express');
 const app = express();
 const { Pool } = require('pg');
 const bcrypt = require('bcryptjs');
+const cors = require('cors');
 
 const auth = require('./auth')
 
@@ -27,6 +28,7 @@ const JWT_EXPIRY = '2h';
 const PORT = process.env.PORT;
 
 app.use(express.json());
+app.use(cors())
 
 const pool = new Pool({
   user: process.env.DB_USER,
