@@ -44,7 +44,7 @@ app.post('/api/auth/login', async (req, res) => {
   }
 
   try {
-    const result = await pool.query('SELECT user_id, username, password_hash FROM users WHERE username = $1', [username]);
+    const result = await pool.query('SELECT id, username, password FROM users WHERE username = $1', [username]);
     const user = result.rows[0];
 
     if (!user) {
@@ -82,15 +82,11 @@ app.post('/api/auth/create_account', async (req, res) => {
       return res.status(401).json({ message: 'User already exists'});
     }
 
-    const id = crypto.randomUUID();
-    const password_hash = bcrypt.hash(password);
+    const password_hash = await bcrypt.hash(password);
 
     const r = await pool.query(
-      `
-      INSERT INTO users (id, username, email, password)
-      VALUES ($1, $2, $3, $4);
-      `,
-      [id, username, email, password_hash]
+      `INSERT INTO users (username, email, password) VALUES ($1, $2, $3);`,
+      [username, email, password_hash]
     );
 
     return res.status(200);
